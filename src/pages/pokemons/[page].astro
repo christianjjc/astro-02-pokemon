@@ -3,12 +3,13 @@ import type { GetStaticPaths } from 'astro';
 import PokemonCard from '@components/pokemons/PokemonCard.astro';
 import type { PokemonListI } from '@interfaces/pokemon-list.response';
 import MainLayout from '@layouts/MainLayout.astro';
+import Title from '@components/shared/Title.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
-    const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-    const { results } = (await resp.json()) as PokemonListI;
+  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results } = (await resp.json()) as PokemonListI;
 
-    return paginate(results, { pageSize: 20 });
+  return paginate(results, { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
 const title = 'Pokémon Static';
@@ -16,36 +17,38 @@ const { page } = Astro.props;
 ---
 
 <MainLayout title={title}>
-    <h1>Listado de Pokémons</h1>
-    <section aria-label="Listado de Pokémons" class="pt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {
-            page.data.map((pk) => (
-                //
-                <PokemonCard name={pk.name} url={pk.url} isBig={false} />
-            ))
-        }
-    </section>
-    <section class="flex px-10 mt-10 gap-2 items-center">
-        <!-- {
+  <Title>Listado de Pokémons</Title>
+  <section
+    aria-label="Listado de Pokémons"
+    class="pt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {
+      page.data.map((pk) => (
+        //
+        <PokemonCard name={pk.name} url={pk.url} isBig={false} />
+      ))
+    }
+  </section>
+  <section class="flex px-10 mt-10 gap-2 items-center">
+    <!-- {
             page.url.prev && (
                 <a href={page.url.prev} class="btn">
                     Anteriores
                 </a>
             )
         } -->
-        <a href={page.url.prev} class:list={['btn', { disabled: !page.url.prev }]}> Anteriores </a>
-        <a href={page.url.next} class:list={['btn', { disabled: !page.url.next }]}>Siguientes</a>
-        <div class="flex flex-1"></div>
-        <span class="text-xl font-bold">Página {page.currentPage}</span>
-    </section>
+    <a href={page.url.prev} class:list={['btn', { disabled: !page.url.prev }]}> Anteriores </a>
+    <a href={page.url.next} class:list={['btn', { disabled: !page.url.next }]}>Siguientes</a>
+    <div class="flex flex-1"></div>
+    <span class="text-xl font-bold">Página {page.currentPage}</span>
+  </section>
 </MainLayout>
 
 <style>
-    .btn {
-        @apply bg-blue-500 p-2 text-white rounded-md;
-    }
+  .btn {
+    @apply bg-blue-500 p-2 text-white rounded-md;
+  }
 
-    .disabled {
-        @apply bg-gray-600 text-gray-400;
-    }
+  .disabled {
+    @apply bg-gray-600 text-gray-400;
+  }
 </style>

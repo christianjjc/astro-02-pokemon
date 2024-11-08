@@ -3,30 +3,31 @@ import type { GetStaticPaths } from 'astro';
 import PokemonCard from '@components/pokemons/PokemonCard.astro';
 import type { PokemonListI } from '@interfaces/pokemon-list.response';
 import MainLayout from '@layouts/MainLayout.astro';
+import Title from '@components/shared/Title.astro';
 
 export const getStaticPaths = (async () => {
-    const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-    const { results } = (await resp.json()) as PokemonListI;
+  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results } = (await resp.json()) as PokemonListI;
 
-    //* Primera Forma
-    //  const arrayPokemons = results.map((p) => ({ params: { name: p.name }, props: { name: p.name, url: p.url } }));
-    //  return arrayPokemons;
+  //* Primera Forma
+  //  const arrayPokemons = results.map((p) => ({ params: { name: p.name }, props: { name: p.name, url: p.url } }));
+  //  return arrayPokemons;
 
-    //* Segunda Forma
-    // const arrayPokemons = results.map(({ name, url }) => ({ params: { name: name }, props: { name: name, url: url } }));
-    // return arrayPokemons;
+  //* Segunda Forma
+  // const arrayPokemons = results.map(({ name, url }) => ({ params: { name: name }, props: { name: name, url: url } }));
+  // return arrayPokemons;
 
-    //* Tercera Forma
-    return results.map(({ name, url }) => ({
-        params: { name },
-        props: { name, url },
-    }));
+  //* Tercera Forma
+  return results.map(({ name, url }) => ({
+    params: { name },
+    props: { name, url },
+  }));
 
-    // return [
-    //     //
-    //     { params: { name: 'bulbasaur' }, props: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' } },
-    //     { params: { name: 'charmander' }, props: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' } },
-    // ];
+  // return [
+  //     //
+  //     { params: { name: 'bulbasaur' }, props: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/1/' } },
+  //     { params: { name: 'charmander' }, props: { name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/2/' } },
+  // ];
 }) satisfies GetStaticPaths;
 
 const { name } = Astro.params;
@@ -37,21 +38,22 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 ---
 
 <MainLayout title={`Pokémon - #${id} ${name}`} description={`Información sobre ${name}`} image={imageSrc}>
-    <section class="mt-10 mx-10 flex flex-col justify-center items-center">
-        <div>
-            <a href="/">Regresar</a>
-            <h1 class="capitalize text-5xl">{name}</h1>
-        </div>
-        <PokemonCard name={name} url={url} isBig />
-        <audio controls class="mt-5">
-            <source src={audioSrc} type="audio/ogg" />
-            Your Browser doies not support the audio element.
-        </audio>
-    </section>
+  <section class="mt-10 mx-10 flex flex-col justify-center items-center">
+    <div>
+      <!-- <a href="/">Regresar</a> -->
+      <button class="text-blue-500" onclick="history.back()">Regresar</button>
+      <Title>{name}</Title>
+    </div>
+    <PokemonCard name={name} url={url} isBig />
+    <audio controls class="mt-5">
+      <source src={audioSrc} type="audio/ogg" />
+      Your Browser doies not support the audio element.
+    </audio>
+  </section>
 </MainLayout>
 
 <style>
-    a {
-        @apply hover:underline text-blue-500;
-    }
+  a {
+    @apply hover:underline text-blue-500;
+  }
 </style>

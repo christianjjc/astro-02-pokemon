@@ -1,5 +1,6 @@
 ---
 import PokemonCard from '@components/pokemons/PokemonCard.astro';
+import Title from '@components/shared/Title.astro';
 import type { PokemonListI } from '@interfaces/pokemon-list.response';
 import MainLayout from '@layouts/MainLayout.astro';
 
@@ -10,13 +11,15 @@ const title = 'Pokémon Static';
 ---
 
 <MainLayout title={title}>
-    <h1>Listado de Pokémons</h1>
-    <section aria-label="Listado de Pokémons" class="pt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {
-            data.results.map((pk) => (
-                //
-                <PokemonCard name={pk.name} url={pk.url} />
-            ))
-        }
-    </section>
+  <Title>Listado de Pokémons</Title>
+  <section
+    aria-label="Listado de Pokémons"
+    class="pt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {
+      data.results.map((pk) => (
+        //
+        <PokemonCard name={pk.name} url={pk.url} />
+      ))
+    }
+  </section>
 </MainLayout>
