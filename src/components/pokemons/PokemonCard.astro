@@ -1,0 +1,32 @@
+---
+interface Props {
+    name: string;
+    url: string;
+    isBig?: boolean;
+}
+const { name, url, isBig = false } = Astro.props;
+
+const id = url.split('/').at(-2);
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+---
+
+<!-- class=`flex flex-col justify-center items-center p-2 rounded ${!isBig && 'border'}` -->
+<a
+    href={`/pokemons/${name}`}
+    aria-label="Tarjeta de Pokémons"
+    class:list={[
+        `flex flex-col justify-center items-center p-2 rounded`,
+        {
+            //
+            border: !isBig,
+        },
+    ]}>
+    <img
+        transition:name={`${name}-image`}
+        src={imageSrc}
+        alt={`imágen de pokémon ${name}`}
+        class:list={[{ 'w-26 h-26': isBig }, { 'w-18 h-18': !isBig }]}
+    />
+
+    <span class={`capitalize ${isBig && 'text-3xl'}`}> #{id} {name}</span>
+</a>
