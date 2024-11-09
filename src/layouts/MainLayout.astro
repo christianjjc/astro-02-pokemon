@@ -38,9 +38,9 @@ const { title = siteInfo.title, description = siteInfo.description, image } = As
       }
     </style> -->
   </head>
-  <body class="bg-slate-800 text-slate-100 m-auto max-w-3xl">
+  <body class="bg-slate-800 text-slate-100 flex flex-col min-h-screen">
     <Navbar />
-    <main class="my-10 m-auto max-w-3xl mx-2">
+    <main class="my-10 mx-auto flex-grow w-full max-w-4xl px-4">
       <slot />
     </main>
   </body>
