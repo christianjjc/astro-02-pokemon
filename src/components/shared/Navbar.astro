@@ -3,6 +3,7 @@ const links = [
   { href: '/', text: 'Listado' },
   { href: '/pokemons/1', text: 'Paginado' },
   { href: '/favorites', text: 'Favoritos' },
+  { href: '/islands', text: 'Islas' },
 ];
 const currentPath = Astro.url.pathname;
 ---
@@ -28,6 +29,7 @@ const currentPath = Astro.url.pathname;
           <a href={l.href} class="link">
             {l.text}
           </a>
+          <!-- Este ternario se crea para evitar el salto al hacer clic -->
           {currentPath === l.href ? (
             <div class="active-link" transition:name="menu-line" />
           ) : (
